@@ -1,0 +1,19 @@
+{
+  "pr_auc": 0.6224,
+  "roc_auc": 0.7798,
+  "gini": 0.5595,
+  "segments": {
+    "A": {
+      "clients": 1020,
+      "default_rate": 0.0892
+    },
+    "B": {
+      "clients": 983,
+      "default_rate": 0.2543
+    },
+    "C": {
+      "clients": 997,
+      "default_rate": 0.5436
+    }
+  }
+}

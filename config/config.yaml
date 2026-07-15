@@ -1,0 +1,48 @@
+# Глобальный seed:
+seed: 42
+
+data:
+  raw_path: "data/microfinance.csv"   # относительно корня репозитория
+  target: "default"                    # имя целевой переменной
+
+split:
+  test_size: 0.3
+  stratify: true        # сохранить долю дефолтов одинаковой в train и test
+
+# Списки фич
+features:
+  categorical:
+    - employment_type
+    - region
+    - education
+    - age_group           # создаётся в CreditPreprocessor (биннинг age)
+    - prev_loans_groups   # создаётся в CreditPreprocessor (биннинг prev_loans)
+  numeric:
+    - age
+    - income
+    - prev_loans
+    - credit_history_bad
+    - loan_amount
+    - loan_term_days
+    - daily_payment       # инженерная: loan_amount / loan_term_days
+    - debt_to_income      # инженерная: loan_amount / income
+    - payment_to_income   # инженерная: дневной платёж / дневной доход
+
+# Гиперпараметры LogReg - результат отбора (Optuna) в ноутбуке modeling_eval.
+model:
+  C: 0.364
+  penalty: "l1"          # L1 -> отбор фич "из коробки"
+  solver: "liblinear"    # поддерживает L1
+  class_weight: "balanced"  # компенсирует дисбаланс классов
+  max_iter: 1000
+
+# Границы сегментов A/B/C по перцентилям train-скоров.
+segmentation:
+  low_quantile: 0.33     # < этого -> A (низкий риск)
+  high_quantile: 0.66    # >= этого -> C (высокий риск)
+
+# Пути к артефактам.
+paths:
+  model: "models/credit_pipeline.pkl"
+  segment_thresholds: "models/segment_thresholds.json"
+  metrics: "models/metrics.json"
