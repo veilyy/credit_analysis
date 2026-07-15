@@ -2,12 +2,12 @@
 seed: 42
 
 data:
-  raw_path: "data/microfinance.csv"   # относительно корня репозитория
-  target: "default"                    # имя целевой переменной
+  raw_path: "data/microfinance.csv"  
+  target: "default"                  
 
 split:
   test_size: 0.3
-  stratify: true        # сохранить долю дефолтов одинаковой в train и test
+  stratify: true        
 
 # Списки фич
 features:
@@ -28,12 +28,12 @@ features:
     - debt_to_income      # инженерная: loan_amount / income
     - payment_to_income   # инженерная: дневной платёж / дневной доход
 
-# Гиперпараметры LogReg - результат отбора (Optuna) в ноутбуке modeling_eval.
+# Гиперпараметры LogReg
 model:
   C: 0.364
-  penalty: "l1"          # L1 -> отбор фич "из коробки"
-  solver: "liblinear"    # поддерживает L1
-  class_weight: "balanced"  # компенсирует дисбаланс классов
+  penalty: "l1"          
+  solver: "liblinear"    
+  class_weight: "balanced"  
   max_iter: 1000
 
 # Границы сегментов A/B/C по перцентилям train-скоров.
@@ -46,3 +46,9 @@ paths:
   model: "models/credit_pipeline.pkl"
   segment_thresholds: "models/segment_thresholds.json"
   metrics: "models/metrics.json"
+
+
+# Пороги PSI
+monitoring:
+  psi_moderate: 0.1
+  psi_significate: 0.25
