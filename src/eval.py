@@ -42,7 +42,7 @@ def evaluate(config: dict) -> dict:
  
     # 3. Предсказания
     y_proba = pipeline.predict_proba(X_test)[:, 1]
-    y_pred = pipeline.predict(X_test)
+    y_pred = pipeline.predict(X_test)   
  
     # 4. Метрики качества
     pr_auc = average_precision_score(y_test, y_proba)
