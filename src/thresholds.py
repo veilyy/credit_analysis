@@ -16,12 +16,20 @@ from src.data import PROJECT_ROOT, load_config, load_data, split_data
 def find_best_thresholds(y, proba, loan, biz, step = 0.02):
     
     grid = np.arange(0, 1 + step, step)
+    max_share= biz.get("max_review_share", 1.0)
     best = {"t_low": 0.0, "t_high": 0.0, "profit": -np.inf}
 
     for t_low in grid:
         for t_high in grid:
             if t_high < t_low:
                 continue
+            
+            # доля заявок, попавших в серую зону
+            review_share = ((proba >= t_low) & (proba < t_high)).mean()
+            if review_share > max_share:
+                continue
+
+
             profit = total_profit(y, proba, loan, t_low, t_high, biz)
             if profit > best["profit"]:
                 best = {"t_low": float(t_low), "t_high": float(t_high), "profit": profit}
