@@ -1,5 +1,5 @@
 """
-profit.py - анализ профита с учетом щатрат на review и разного рода ошибок.
+profit.py - анализ профита с учетом затрат на review и разного рода ошибок.
  
 Политика трёх действий по двум порогам вероятности дефолта p:
     p < t_low            -> APPROVE 
@@ -14,7 +14,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-def assign_actions(proba: np.ndarray, t_low: float, t_hig: float) -> np.ndarray:     
+def assign_actions(proba: np.ndarray, t_low: float, t_high: float) -> np.ndarray:     
     """Функция относит вероятности к категориям approve / review / reject."""
 
     return np.where(proba < t_low, "approve",
@@ -50,12 +50,12 @@ def payoff_per_client(
     bad = y == 1
 
     # ОДОБРЕНИЕ: хороший -> +profit*L ; дефолт -> -loss*L
-    pay[(action == "approve") & good] = profit * L[(action == "approve") & good]
-    pay[(action == "approve") & bad] = -loss * L[(action == "approve") & bad]
+    pay[(actions == "approve") & good] = profit * L[(actions == "approve") & good]
+    pay[(actions == "approve") & bad] = -loss * L[(actions == "approve") & bad]
 
     # РУЧНАЯ ПРОВЕРКА: хороший -> +profit*L ; дефолт -> -(1-catch)*loss*L
-    pay[(action == "review") & good] = profit * L[(action == "review") & good] - cost
-    pay[(action == "review") & bad] = -(1 - catch) * loss * L[(action == "review") & bad] - cost
+    pay[(actions == "review") & good] = profit * L[(actions == "review") & good] - cost
+    pay[(actions == "review") & bad] = -(1 - catch) * loss * L[(actions == "review") & bad] - cost
 
     return pay
 
