@@ -7,7 +7,8 @@ api.py - сервис скоринга на FastAPI.
 
 from __future__ import annotations
 
-import joblib 
+import joblib
+import json 
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
@@ -20,6 +21,10 @@ from src.segmentation import assign_segment, load_thresholds
 config = load_config()
 pipeline = joblib.load(PROJECT_ROOT / config["paths"]["model"])
 thresholds = load_thresholds(PROJECT_ROOT / config["paths"]["segment_thresholds"])
+
+# пороги максимизирующие прибыль портфеля
+with open(PROJECT_ROOT / "models" / "policy_thresholds.json", encoding="utf-8") as f:
+    policy = json.load(f)
 
 app = FastAPI()
 
@@ -42,6 +47,17 @@ class LoanApplication(BaseModel):
 class PredictionResponse(BaseModel):
     prob_default: float
     segment: str
+    decision: str
+
+
+
+def make_decision(prob: float) -> str:
+    
+    if prob < policy["t_low"]:
+        return "approve"
+    if prob < policy["t_high"]:
+        return "review"
+    return "reject"
 
 
 @app.post("/predict", response_model=PredictionResponse)
@@ -52,6 +68,7 @@ def predict(application: LoanApplication) -> PredictionResponse:
 
     prob = float(pipeline.predict_proba(row)[:, 1][0])
     segment = assign_segment(prob, thresholds)
+    decision = make_decision(prob)
 
 
-    return PredictionResponse(prob_default=round(prob, 4), segment=segment)
+    return PredictionResponse(prob_default=round(prob, 4), segment=segment, decision=decision)
