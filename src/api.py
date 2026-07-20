@@ -60,6 +60,16 @@ def make_decision(prob: float) -> str:
     return "reject"
 
 
+@app.get("/health")
+def health():
+    
+    return {
+        "status": "ok",
+        "model_version": app.version,
+        "policy": {"t_low": policy["t_low"], "t_high": policy["t_high"]},
+    }
+ 
+
 @app.post("/predict", response_model=PredictionResponse)
 
 def predict(application: LoanApplication) -> PredictionResponse:
