@@ -23,7 +23,7 @@ def make_df(**overrides) -> pd.DataFrame:
     return pd.DataFrame(data)
 
 def test_fit_learns_medians():
-    prep = CreditPreprocessor()
+    prep = CreditPreprocessor().fit(make_df())
 
     assert prep.income_median_ == 55000
     assert prep.age_median_global_ is not None

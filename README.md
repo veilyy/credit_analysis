@@ -62,19 +62,17 @@ src/
   train.py             обучение, сохранение модели и порогов
   eval.py              метрики на тесте -> metrics.json
   segmentation.py      сегменты риска A/B/C
-  drift.py             PSI и KS — детекция дрейфа данных
+  drift.py             PSI и KS - детекция дрейфа данных
   simulate.py          симуляция дрейфа (проверка сигнальной системы)
-  business.py          матрица прибыли, экономика решений
+  profit.py          матрица прибыли, экономика решений
   thresholds.py        подбор порогов, максимизирующих прибыль
-  woe_iv.py            WoE / IV — сила признаков
-  feature_selection.py отбор признаков: IV, корреляция, VIF
   shap_analysis.py     интерпретация модели
   api.py               FastAPI: /predict, /health
   prediction_logger.py лог предсказаний (observability)
-  dashboard.py         Streamlit-дашборд мониторинга
-config/config.yaml     единый источник правды: пути, признаки, гиперпараметры, экономика
-notebooks/             EDA и история выбора модели
-tests/                 unit / поведенческие / интеграционные
+  dashboard.py         Streamlit - дашборд симуляции дрейфа
+config/config.yaml     конфиг
+notebooks/             ноутбуки
+tests/                 тесты
 ```
 
 ---
