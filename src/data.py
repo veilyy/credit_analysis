@@ -17,28 +17,17 @@ DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "config.yaml"
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> dict:
-    """Читает конфиг в словарь."""
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
 def load_data(config: dict) -> pd.DataFrame:
-    """
-    Загружает сырой CSV. Путь берётся из config и резолвится от корня проекта
-    """
     csv_path = PROJECT_ROOT / config["data"]["raw_path"]
-    if not csv_path.exists():
-        raise FileNotFoundError(
-            f"Не найден файл данных: {csv_path}\n"
-            f"Проверь config['data']['raw_path'] (сейчас: {config['data']['raw_path']})."
-        )
     return pd.read_csv(csv_path)
 
 
 def split_data(df: pd.DataFrame, config: dict):
-    """
-    Делит данные на train/test.
-    """
+    
     target = config["data"]["target"]
     X = df.drop(columns=[target])
     y = df[target]
