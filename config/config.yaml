@@ -1,13 +1,13 @@
 # Глобальный seed:
-seed: 42
+seed: 42 # для воспроизводимости
 
 data:
-  raw_path: "data/microfinance.csv"  
-  target: "default"                  
+  raw_path: "data/microfinance.csv" # путь к сырым данным
+  target: "default"                 # целевая переменная (маркер просрочки 30 дней)
 
 split:
-  test_size: 0.3
-  stratify: true        
+  test_size: 0.3  # размер тестовой выборки на сплите
+  stratify: true  # стратификация целевой переменной при разбиении (важно при дисбалансе)      
 
 # Списки фич
 features:
@@ -31,21 +31,22 @@ features:
 # Гиперпараметры LogReg
 model:
   C: 0.364
-  penalty: "l1"          
+  penalty: "l1"          # l1 - зануляет признаки
   solver: "liblinear"    
   class_weight: "balanced"  
   max_iter: 1000
 
-# Границы сегментов A/B/C по перцентилям train-скоров.
-segmentation:
-  low_quantile: 0.33     # < этого -> A (низкий риск)
-  high_quantile: 0.66    # >= этого -> C (высокий риск)
+
+# Параметры подбора порогов (входы оптимизации)
+thresholds:
+  step: 0.02
+  max_review_share: 0.15
 
 # Пути к артефактам.
 paths:
-  model: "models/credit_pipeline.pkl"
-  segment_thresholds: "models/segment_thresholds.json"
-  metrics: "models/metrics.json"
+  model: "artefacts/credit_pipeline.pkl"
+  segment_thresholds: "artefacts/segment_thresholds.json"
+  metrics: "artefacts/metrics.json"
 
 
 # Пороги PSI
@@ -59,7 +60,7 @@ monitoring:
 business:
   profit_rate: 0.20         # чистая маржа с возвращённого займа, доля от суммы
   loss_rate: 1.00           # потеря при дефолте, доля от суммы
-  manual_review_cost: 200   # фикс. стоимость ручной проверки одной заявки, ₽
+  manual_review_cost: 200   # фикс. стоимость ручной проверки одной заявки RUB
   review_catch_rate: 0.80   # доля дефолтников, отсекаемых ручной проверкой в серой зоне
   currency: "RUB"
   max_review_share: 0.15    # не больше 15% заявок на ручную проверку
