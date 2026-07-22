@@ -65,7 +65,7 @@ if __name__ == "__main__":
     print(f"Выигрыш против 0.5:    {best['profit'] - profit_05:>15,.0f} руб")
  
     # Сохранение результата
-    out_path = PROJECT_ROOT / "models" / "policy_thresholds.json"
+    out_path = PROJECT_ROOT / "models" / "thresholds.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(best, f, indent=2)
