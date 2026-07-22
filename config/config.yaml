@@ -37,16 +37,16 @@ model:
   max_iter: 1000
 
 
-# Параметры подбора порогов (входы оптимизации)
+# Параметры подбора порогов
 thresholds:
   step: 0.02
   max_review_share: 0.15
 
 # Пути к артефактам.
 paths:
-  model: "artefacts/credit_pipeline.pkl"
-  segment_thresholds: "artefacts/segment_thresholds.json"
-  metrics: "artefacts/metrics.json"
+  model: "artifacts/credit_pipeline.pkl"
+  thresholds: "artifacts/thresholds.json"
+  metrics: "artifacts/metrics.json"
 
 
 # Пороги PSI
@@ -55,7 +55,6 @@ monitoring:
   psi_significate: 0.25
 
 
-# Бизнес-экономика МФО (для cost-sensitive анализа).
 # Прибыль и потеря считаются от суммы займа каждого клиента (loan_amount).
 business:
   profit_rate: 0.20         # чистая маржа с возвращённого займа, доля от суммы
