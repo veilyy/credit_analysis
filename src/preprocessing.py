@@ -2,8 +2,7 @@
 preprocessing.py  препроцессинг как sklearn-трансформер.
  
 CreditPreprocessor заполняет пропуски и создаёт инженерные фичи.
-Все статистики (медианы) считаются на fit (train) и применяются на transform .
-Так нет утечки: параметры заполнения выучены только на train.
+Все статистики считаются на fit и применяются на transform.
 """
 from __future__ import annotations
  
@@ -68,7 +67,7 @@ class CreditPreprocessor(BaseEstimator, TransformerMixin):
         X["debt_to_income"] = X["loan_amount"] / X["income"].replace(0, np.nan)
         X["debt_to_income"] = X["debt_to_income"].fillna(0)
  
-        # 5c. payment_to_income - дневной платёж относительно дневного дохода (income/30).
+        # 5c. payment_to_income - дневной платёж относительно дневного дохода.
         daily_income = (X["income"] / 30).replace(0, np.nan)
         X["payment_to_income"] = (X["daily_payment"] / daily_income).fillna(0)
  
