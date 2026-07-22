@@ -36,7 +36,7 @@ def evaluate(config: dict) -> dict:
  
     # 2. Загрузка артефактов
     model_path = PROJECT_ROOT / config["paths"]["model"]
-    thr_path = PROJECT_ROOT / config["paths"]["segment_thresholds"]
+    thr_path = PROJECT_ROOT / config["paths"]["thresholds"]
     pipeline = joblib.load(model_path)
     thresholds = load_thresholds(thr_path)
  
