@@ -62,7 +62,7 @@ def drift_report(reference: pd.DataFrame, current: pd.DataFrame, config: dict) -
  
     Списки фич и порог берутся из config. Мониторим только СЫРЫЕ фичи
     """
-    threshold = config.get("monitoring", {}).get("psi_significant", 0.25)
+    threshold = config.get("monitoring", {}).get("psi_significate", 0.25)
  
     numeric = [c for c in config["features"]["numeric"] if c in reference.columns]
     categorical = [c for c in config["features"]["categorical"] if c in reference.columns]
