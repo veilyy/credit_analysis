@@ -55,7 +55,7 @@ def make_decision(prob: float) -> str:
     
     if prob < policy["low_thr"]:
         return "approve"
-    if prob < policy["gih_thr"]:
+    if prob < policy["high_thr"]:
         return "review"
     return "reject"
 
