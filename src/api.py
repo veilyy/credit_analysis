@@ -20,10 +20,10 @@ from src.segmentation import assign_segment, load_thresholds
 
 config = load_config()
 pipeline = joblib.load(PROJECT_ROOT / config["paths"]["model"])
-thresholds = load_thresholds(PROJECT_ROOT / config["paths"]["segment_thresholds"])
+thresholds = load_thresholds(PROJECT_ROOT / config["paths"]["thresholds"])
 
 # пороги максимизирующие прибыль портфеля
-with open(PROJECT_ROOT / "models" / "policy_thresholds.json", encoding="utf-8") as f:
+with open(PROJECT_ROOT / "artifacts" / "thresholds.json", encoding="utf-8") as f:
     policy = json.load(f)
 
 app = FastAPI()
@@ -53,9 +53,9 @@ class PredictionResponse(BaseModel):
 
 def make_decision(prob: float) -> str:
     
-    if prob < policy["t_low"]:
+    if prob < policy["low_thr"]:
         return "approve"
-    if prob < policy["t_high"]:
+    if prob < policy["gih_thr"]:
         return "review"
     return "reject"
 
@@ -66,7 +66,7 @@ def health():
     return {
         "status": "ok",
         "model_version": app.version,
-        "policy": {"t_low": policy["t_low"], "t_high": policy["t_high"]},
+        "policy": {"Порог утверждения": policy["low_thr"], "Порог проверки": policy["high_thr"]},
     }
  
 

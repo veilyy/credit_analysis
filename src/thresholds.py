@@ -32,7 +32,7 @@ def find_best_thresholds(y, proba, loan, biz, step = 0.02):
 
             profit = total_profit(y, proba, loan, t_low, t_high, biz)
             if profit > best["profit"]:
-                best = {"t_low": float(t_low), "t_high": float(t_high), "profit": profit}
+                best = {"low_thr": float(t_low), "high_thr": float(t_high), "profit": profit}
 
     return best
 
@@ -58,14 +58,14 @@ if __name__ == "__main__":
     profit_05 = total_profit(y, proba, loan, 0.5, 0.5, biz)
     profit_all = total_profit(y, proba, loan, 1.0, 1.0, biz)
  
-    print(f"Оптимальные пороги: t_low = {best['t_low']:.2f} | t_high = {best['t_high']:.2f}")
+    print(f"Оптимальные пороги: t_low = {best['low_thr']:.2f} | t_high = {best['high_thr']:.2f}")
     print(f"Прибыль (оптимум):     {best['profit']:>15,.0f} руб")
     print(f"Прибыль (порог 0.5):   {profit_05:>15,.0f} руб")
     print(f"Прибыль (одобрить всех):{profit_all:>14,.0f} руб")
     print(f"Выигрыш против 0.5:    {best['profit'] - profit_05:>15,.0f} руб")
  
     # Сохранение результата
-    out_path = PROJECT_ROOT / "models" / "thresholds.json"
+    out_path = PROJECT_ROOT / "artifacts" / "thresholds.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(best, f, indent=2)
