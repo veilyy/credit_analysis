@@ -2,7 +2,7 @@
 Отвечает за три вещи:
   1. load_config  - прочитать config.yaml
   2. load_data    - загрузить сырой CSV
-  3. split_data   - воспроизводимый train/test split
+  3. split_data   - воспроизводимый train/test/val split
 """
 from __future__ import annotations
 
@@ -33,24 +33,36 @@ def split_data(df: pd.DataFrame, config: dict):
     y = df[target]
 
     stratify = y if config["split"].get("stratify", True) else None
-    X_train, X_test, y_train, y_test = train_test_split(
+    X_train, X_temp, y_train, y_temp = train_test_split(
         X,
         y,
-        test_size=config["split"]["test_size"],
+        train_size=config["split"]["train_size"],
         stratify=stratify,
         random_state=config["seed"],
     )
-    return X_train, X_test, y_train, y_test
+    stratify_temp = y_temp if config["split"].get("stratify", True) else None
+
+    X_val, X_test, y_val, y_test = train_test_split(
+
+        X_temp,
+        y_temp,
+        test_size=0.50,
+        random_state=config["seed"],
+        stratify=stratify_temp
+    )
+
+    return X_train, y_train, X_test, y_test, X_val, y_val 
 
 
 if __name__ == "__main__":
     cfg = load_config()
     df = load_data(cfg)
-    X_train, X_test, y_train, y_test = split_data(df, cfg)
+    X_train, y_train, X_test, y_test, X_val, y_val = split_data(df, cfg)
 
     print(f"Данные:        {df.shape[0]} строк, {df.shape[1]} колонок")
-    print(f"Train / Test:  {X_train.shape[0]} / {X_test.shape[0]}")
+    print(f"Train / Test / Val:  {X_train.shape[0]} / {X_test.shape[0]} / {X_val.shape[0]}")
     print(
         f"Доля дефолтов на train: {y_train.mean():.3f} | "
-        f"test: {y_test.mean():.3f}"
+        f"test: {y_test.mean():.3f} | "
+        f"val: {y_val.mean():.3f}"
     )
