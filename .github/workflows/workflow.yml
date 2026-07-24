@@ -1,0 +1,40 @@
+name: CI credit_scoring
+on: [push]
+
+jobs:
+  build_and_test:
+    name: Buld and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run:
+          python -m pip install --upgrade pip
+          pip install -r requirements-service.txt
+      
+      - name: Lint with Ruff
+        run: ruff check src tests
+      
+      - name: Train model
+        run : python -m src.train
+
+      - name: Find thresholds
+        run: python -m src.thresholds
+
+      - name: Evaluate model
+        run: python -m src.eval
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Build Docker image
+        run: docker build .
