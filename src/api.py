@@ -7,13 +7,14 @@ api.py - сервис скоринга на FastAPI.
 
 from __future__ import annotations
 
+import json
+
 import joblib
-import json 
 import pandas as pd
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-from src.data import load_config, PROJECT_ROOT
+from src.data import PROJECT_ROOT, load_config
 from src.segmentation import assign_segment, load_thresholds
 
 # --- Загрузка артефактов при старте ---

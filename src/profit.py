@@ -12,7 +12,7 @@ profit.py - анализ профита с учетом затрат на review
 from __future__ import annotations
 
 import numpy as np
-import pandas as pd
+
 
 def assign_actions(proba: np.ndarray, t_low: float, t_high: float) -> np.ndarray:     
     """Функция относит вероятности к категориям approve / review / reject."""

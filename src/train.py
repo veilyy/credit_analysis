@@ -7,11 +7,12 @@ train.py - обучение и сохранение артефактов.
 """
 
 from __future__ import annotations
-  
+
 import joblib
- 
+
 from src.data import PROJECT_ROOT, load_config, load_data, split_data
 from src.pipeline import build_pipeline
+
 
 def train(config: dict) -> None:
     # 1. Данные и воспроизводимый сплит.

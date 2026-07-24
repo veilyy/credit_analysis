@@ -1,7 +1,9 @@
-import pytest
-from src.data import split_data
 import numpy as np
 import pandas as pd
+import pytest
+
+from src.data import split_data
+
 
 @pytest.fixture
 def dummy_data():

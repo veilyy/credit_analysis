@@ -4,7 +4,6 @@ import pandas as pd
 from src.preprocessing import CreditPreprocessor
 
 
-
 def make_df(**overrides) -> pd.DataFrame:
 
     data = {
@@ -52,4 +51,3 @@ def test_no_missing_after_transform():
         assert result[col].notna().all(), f"Остались пропуски в {col}"
 
 
-#

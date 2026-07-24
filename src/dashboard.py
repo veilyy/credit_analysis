@@ -1,6 +1,8 @@
 from __future__ import annotations
-from pathlib import Path
+
 import sys
+from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import joblib
@@ -10,6 +12,7 @@ from sklearn.metrics import average_precision_score
 from src.data import PROJECT_ROOT, load_config, load_data, split_data
 from src.drift import drift_report
 from src.simulate import shift_feature
+
 
 @st.cache_data
 def get_data():

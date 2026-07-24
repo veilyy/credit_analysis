@@ -17,7 +17,6 @@ from __future__ import annotations
 import json
  
 import joblib
-import numpy as np
 import pandas as pd
 from sklearn.metrics import (
     average_precision_score,
@@ -39,10 +38,13 @@ def evaluate(config: dict) -> dict:
     thr_path = PROJECT_ROOT / config["paths"]["thresholds"]
     pipeline = joblib.load(model_path)
     thresholds = load_thresholds(thr_path)
+
+    
+
  
     # 3. Предсказания
     y_proba = pipeline.predict_proba(X_test)[:, 1]
-    y_pred = pipeline.predict(X_test)   
+    y_pred = pipeline.predict(X_test)
  
     # 4. Метрики качества
     pr_auc = average_precision_score(y_test, y_proba)
