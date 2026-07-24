@@ -36,5 +36,11 @@ def test_predict():
     assert body["segment"] in {"A", "B", "C"}
     assert body["decision"] in {"approve", "review", "reject"}
 
-    
+    if body["segment"] == "A":
+        assert body["decision"] == "approve"
+    elif body["segment"] == "B":
+        assert body["decision"] == "review"
+    else:
+        assert body["decision"] == "reject"
+
 
