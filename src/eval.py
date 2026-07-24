@@ -32,7 +32,7 @@ from src.segmentation import assign_segments, load_thresholds
 def evaluate(config: dict) -> dict:
     # 1. Тот же сплит
     df = load_data(config)
-    _, X_test, _, y_test = split_data(df, config)
+    _, _, X_test, y_test, _, _ = split_data(df, config)
  
     # 2. Загрузка артефактов
     model_path = PROJECT_ROOT / config["paths"]["model"]

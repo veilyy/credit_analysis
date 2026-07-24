@@ -44,12 +44,12 @@ if __name__ == "__main__":
  
     # Данные и модель
     df = load_data(config)
-    _, X_test, _, y_test = split_data(df, config)
+    X_train, y_train, X_test, y_test, X_val, y_val = split_data(df, config)
     pipeline = joblib.load(PROJECT_ROOT / config["paths"]["model"])
  
-    proba = pipeline.predict_proba(X_test)[:, 1]
-    loan = X_test["loan_amount"].values
-    y = y_test.values
+    proba = pipeline.predict_proba(X_val)[:, 1]
+    loan = X_val["loan_amount"].values
+    y = y_val.values
  
     # Поиск оптимума
     best = find_best_thresholds(y, proba, loan, biz)

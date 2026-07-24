@@ -15,7 +15,7 @@ from src.simulate import shift_feature
 def get_data():
     config = load_config()
     df = load_data(config)
-    X_train, X_test, _, y_test = split_data(df, config)
+    X_train, _, X_test, y_test, _, _ = split_data(df, config)
     return config, X_train, X_test, y_test
 
 @st.cache_resource

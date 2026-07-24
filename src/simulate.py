@@ -21,7 +21,7 @@ def shift_feature(df: pd.DataFrame, feature: str, factor: float) -> pd.DataFrame
 if __name__ == "__main__":
     config = load_config()
     df = load_data(config)
-    X_train, X_test, _, y_test = split_data(df, config)
+    X_train, _, X_test, y_test, _, _ = split_data(df, config)
  
     pipeline = joblib.load(PROJECT_ROOT / config["paths"]["model"])
  

@@ -16,7 +16,7 @@ from src.pipeline import build_pipeline
 def train(config: dict) -> None:
     # 1. Данные и воспроизводимый сплит.
     df = load_data(config)
-    X_train, _, y_train, _ = split_data(df, config)
+    X_train, y_train, _, _, _, _ = split_data(df, config)
     print(f"Train: {X_train.shape[0]}")
 
     # 2. Сборка и обучение пайплайна.
