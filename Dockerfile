@@ -9,7 +9,7 @@ COPY src/ ./src/
 COPY config/ ./config/
 COPY data/ ./data/
 
-RUN python -m src.train && python -m src.thresholds
+RUN python -m src.train && python -m src.thresholds && python -m src.eval
 
 EXPOSE 8000
 
