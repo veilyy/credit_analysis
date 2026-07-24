@@ -24,7 +24,7 @@ jobs:
       - name: Lint with Ruff
         run: ruff check src tests
       
-      - name: Train model
+      - name: Train modelg
         run : python -m src.train
 
       - name: Find thresholds
