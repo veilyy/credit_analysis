@@ -26,7 +26,7 @@ def dummy_config():
 
 
 def test_split_sizes(dummy_data, dummy_config):
-    X_train, y_train, X_test, y_test, X_val, y_val = split_data(
+    X_train, _, X_test, _, X_val, _ = split_data(
         dummy_data,
         dummy_config,
     )
